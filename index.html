@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Survivor 51 Pool — Outwit Outplay Outlast</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1>🔥 Outwit · Outplay · Outlast</h1>
+      <p class="subtitle"><span id="season-label"></span> Pool Tracker</p>
+      <p class="meta"><span id="last-updated"></span> · Episodes scored: <span id="episode-count"></span></p>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Leaderboard</h2>
+      <div class="table-wrap">
+        <table id="leaderboard">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Picks (Outwit / Outplay / Outlast)</th>
+              <th>Winner pick</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="hint">Ties go to whoever correctly picked the eventual Sole Survivor.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Team Breakdown</h2>
+      <div id="picks-breakdown" class="card-grid"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Cast Roster &amp; Scoring</h2>
+      <div class="table-wrap">
+        <table id="roster">
+          <thead>
+            <tr>
+              <th>Contestant</th>
+              <th>Status</th>
+              <th>Outwit</th>
+              <th>Outplay</th>
+              <th>Outlast</th>
+              <th>Total</th>
+              <th>Picked by</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel rules-panel">
+      <h2>Scoring Rules</h2>
+      <div class="rules-grid">
+        <div>
+          <h3>Outwit</h3>
+          <ul>
+            <li>+2 — attended tribal council and received zero votes</li>
+            <li>+3 — votes nullified by an idol play</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Outplay</h3>
+          <ul>
+            <li>+2 — won individual immunity</li>
+            <li>+1 — on team/tribe that won a challenge (reward or immunity)</li>
+            <li>+1 — won individual reward</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Outlast</h3>
+          <ul>
+            <li>+1 — remained in the game after a tribal council</li>
+            <li>Finale bonus: +1 third place, +2 runner-up, +3 Sole Survivor</li>
+          </ul>
+        </div>
+      </div>
+      <p class="hint">Tiebreaker: correct Sole Survivor pick.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Pick someone different in each category. Updated manually by the commissioner after each episode.</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

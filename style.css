@@ -1,0 +1,258 @@
+:root {
+  --bg: #0f1511;
+  --panel: #182420;
+  --panel-border: #2d3f37;
+  --accent: #e0a040;
+  --accent-soft: #e0a04022;
+  --text: #ecf2ee;
+  --text-dim: #9fb3aa;
+  --red: #c0392b;
+  --green: #4f9d69;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #0f1511 0%, #11201a 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.site-header {
+  padding: 2.5rem 1.5rem 1.75rem;
+  text-align: center;
+  background: radial-gradient(ellipse at top, #24352b 0%, transparent 70%);
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.site-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.meta {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.panel h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: var(--accent);
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 0.5rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid var(--panel-border);
+  white-space: nowrap;
+}
+
+td.picks-cell, td.tiebreak-cell {
+  white-space: normal;
+}
+
+th {
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+tr.leader-row td {
+  background: var(--accent-soft);
+}
+
+td.rank {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+td.score {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+td.player-name {
+  font-weight: 600;
+}
+
+.chip {
+  display: inline-block;
+  background: #22332a;
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  margin: 0.1rem 0.25rem 0.1rem 0;
+  font-size: 0.82rem;
+}
+
+.chip-dead {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-left: 0.35rem;
+}
+
+.badge-active {
+  background: #1f4a30;
+  color: #7be39a;
+}
+
+.badge-out {
+  background: #4a1f1f;
+  color: #e08484;
+}
+
+.badge-win {
+  background: #4a3a1f;
+  color: var(--accent);
+}
+
+.hint {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  margin: 0.75rem 0 0;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.player-card {
+  background: #11211a;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.player-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.6rem;
+}
+
+.player-card-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.player-card-total {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  border-top: 1px dashed var(--panel-border);
+  font-size: 0.88rem;
+}
+
+.breakdown-row:first-of-type {
+  border-top: none;
+}
+
+.breakdown-label {
+  color: var(--text-dim);
+  min-width: 60px;
+}
+
+.breakdown-name {
+  flex: 1;
+  text-align: left;
+  padding: 0 0.5rem;
+}
+
+.breakdown-pts {
+  font-weight: 600;
+}
+
+.breakdown-row.tiebreak {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.rules-grid h3 {
+  margin: 0 0 0.4rem;
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.rules-grid ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.86rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 600px) {
+  th, td { padding: 0.45rem 0.4rem; font-size: 0.82rem; }
+}
