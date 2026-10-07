@@ -89,5 +89,6 @@ const SURVIVOR_DATA = {
     { player: "Karen",          outwit: "Angelica \"Jelly\" Loblack", outplay: "Danny \"Kilby\" Kilby", outlast: "Ori Jean-Charles",      winner: "Danny \"Kilby\" Kilby" },
     { player: "Jordyn Bucholtz",outwit: "An \"Thien An\" Nguyen",     outplay: "Patt Cannaday",    outlast: "Cristian Chavez",            winner: "Ana Sani" },
     { player: "Carlye Beyer",   outwit: "Angelica \"Jelly\" Loblack", outplay: "Ori Jean-Charles", outlast: "Mike Pinsky",                winner: "Mike Pinsky" },
+    { player: "Kate",           outwit: "Lewis Kelly",                outplay: "Ori Jean-Charles", outlast: "Jenna Doore",                winner: "Jenna Doore" },
   ],
 };
