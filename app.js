@@ -1,35 +1,50 @@
-function sum(arr) {
-  return (arr || []).reduce((a, b) => a + (Number(b) || 0), 0);
+// Array index 0 = episode 2 (the first scored episode), so episode number = index + 2.
+const FIRST_SCORED_EPISODE = 2;
+
+// The episode currently selected in the picker (an episode number, e.g. 3).
+// Defaults to the latest scored episode once data loads.
+let selectedEpisode = FIRST_SCORED_EPISODE + SURVIVOR_DATA.episodeCount - 1;
+
+function sum(arr, uptoEpisode) {
+  const full = arr || [];
+  const slice =
+    uptoEpisode == null ? full : full.slice(0, uptoEpisode - FIRST_SCORED_EPISODE + 1);
+  return slice.reduce((a, b) => a + (Number(b) || 0), 0);
 }
 
 function contestantByName(name) {
   return SURVIVOR_DATA.contestants.find((c) => c.name === name);
 }
 
-function categoryTotal(name, category) {
+function categoryTotal(name, category, uptoEpisode) {
   const c = contestantByName(name);
   if (!c) return 0;
-  return sum(c[category]);
+  return sum(c[category], uptoEpisode);
 }
 
-function pickScore(pick) {
+function pickScore(pick, uptoEpisode) {
   return (
-    categoryTotal(pick.outwit, "outwit") +
-    categoryTotal(pick.outplay, "outplay") +
-    categoryTotal(pick.outlast, "outlast")
+    categoryTotal(pick.outwit, "outwit", uptoEpisode) +
+    categoryTotal(pick.outplay, "outplay", uptoEpisode) +
+    categoryTotal(pick.outlast, "outlast", uptoEpisode)
   );
 }
 
-function statusBadge(c) {
-  if (c.status === "eliminated") {
-    return `<span class="badge badge-out">Out — Ep ${c.eliminatedEpisode ?? "?"}</span>`;
+// Was this contestant already eliminated as of the given episode?
+function eliminatedAsOf(c, uptoEpisode) {
+  return c.eliminatedEpisode != null && c.eliminatedEpisode <= uptoEpisode;
+}
+
+function statusBadge(c, uptoEpisode) {
+  if (eliminatedAsOf(c, uptoEpisode)) {
+    return `<span class="badge badge-out">Out — Ep ${c.eliminatedEpisode}</span>`;
   }
   return `<span class="badge badge-active">Active</span>`;
 }
 
-function pickChip(name) {
+function pickChip(name, uptoEpisode) {
   const c = contestantByName(name);
-  const dead = c && c.status === "eliminated";
+  const dead = c && eliminatedAsOf(c, uptoEpisode);
   return `<span class="chip ${dead ? "chip-dead" : ""}">${name}${dead ? " ☠" : ""}</span>`;
 }
 
@@ -39,9 +54,24 @@ function renderMeta() {
   document.getElementById("episode-count").textContent = SURVIVOR_DATA.episodeCount;
 }
 
+function renderEpisodePicker() {
+  const select = document.getElementById("episode-select");
+  const lastEpisode = FIRST_SCORED_EPISODE + SURVIVOR_DATA.episodeCount - 1;
+  const options = [];
+  for (let ep = FIRST_SCORED_EPISODE; ep <= lastEpisode; ep++) {
+    const label = ep === lastEpisode ? `Episode ${ep} (latest)` : `Episode ${ep}`;
+    options.push(`<option value="${ep}" ${ep === selectedEpisode ? "selected" : ""}>${label}</option>`);
+  }
+  select.innerHTML = options.join("");
+  select.onchange = () => {
+    selectedEpisode = Number(select.value);
+    renderAll();
+  };
+}
+
 function renderLeaderboard() {
   const rows = SURVIVOR_DATA.picks
-    .map((p) => ({ ...p, score: pickScore(p) }))
+    .map((p) => ({ ...p, score: pickScore(p, selectedEpisode) }))
     .sort((a, b) => b.score - a.score);
 
   const maxScore = rows.length ? rows[0].score : 0;
@@ -56,9 +86,9 @@ function renderLeaderboard() {
         <td class="rank">${i + 1}</td>
         <td class="player-name">${p.player}</td>
         <td class="picks-cell">
-          ${pickChip(p.outwit)}
-          ${pickChip(p.outplay)}
-          ${pickChip(p.outlast)}
+          ${pickChip(p.outwit, selectedEpisode)}
+          ${pickChip(p.outplay, selectedEpisode)}
+          ${pickChip(p.outlast, selectedEpisode)}
         </td>
         <td class="tiebreak-cell">
           ${p.winner}${gotWinnerRight ? ' <span class="badge badge-win">✓ Winner pick</span>' : ""}
@@ -75,15 +105,15 @@ function renderPicksBreakdown() {
   const container = document.getElementById("picks-breakdown");
   container.innerHTML = SURVIVOR_DATA.picks
     .map((p) => {
-      const outwitPts = categoryTotal(p.outwit, "outwit");
-      const outplayPts = categoryTotal(p.outplay, "outplay");
-      const outlastPts = categoryTotal(p.outlast, "outlast");
+      const outwitPts = categoryTotal(p.outwit, "outwit", selectedEpisode);
+      const outplayPts = categoryTotal(p.outplay, "outplay", selectedEpisode);
+      const outlastPts = categoryTotal(p.outlast, "outlast", selectedEpisode);
       const total = outwitPts + outplayPts + outlastPts;
       const row = (label, name, pts) => {
         const c = contestantByName(name);
         return `<div class="breakdown-row">
           <span class="breakdown-label">${label}</span>
-          <span class="breakdown-name">${name} ${c ? statusBadge(c) : ""}</span>
+          <span class="breakdown-name">${name} ${c ? statusBadge(c, selectedEpisode) : ""}</span>
           <span class="breakdown-pts">${pts} pts</span>
         </div>`;
       };
@@ -109,15 +139,17 @@ function renderRoster() {
   const tbody = SURVIVOR_DATA.contestants
     .slice()
     .sort((a, b) => {
-      if (a.status !== b.status) return a.status === "active" ? -1 : 1;
-      const totalA = sum(a.outwit) + sum(a.outplay) + sum(a.outlast);
-      const totalB = sum(b.outwit) + sum(b.outplay) + sum(b.outlast);
+      const aOut = eliminatedAsOf(a, selectedEpisode);
+      const bOut = eliminatedAsOf(b, selectedEpisode);
+      if (aOut !== bOut) return aOut ? 1 : -1;
+      const totalA = sum(a.outwit, selectedEpisode) + sum(a.outplay, selectedEpisode) + sum(a.outlast, selectedEpisode);
+      const totalB = sum(b.outwit, selectedEpisode) + sum(b.outplay, selectedEpisode) + sum(b.outlast, selectedEpisode);
       return totalB - totalA;
     })
     .map((c) => {
-      const outwitPts = sum(c.outwit);
-      const outplayPts = sum(c.outplay);
-      const outlastPts = sum(c.outlast);
+      const outwitPts = sum(c.outwit, selectedEpisode);
+      const outplayPts = sum(c.outplay, selectedEpisode);
+      const outlastPts = sum(c.outlast, selectedEpisode);
       const total = outwitPts + outplayPts + outlastPts;
       const pickedBy = SURVIVOR_DATA.picks
         .filter((p) => p.outwit === c.name || p.outplay === c.name || p.outlast === c.name)
@@ -125,7 +157,7 @@ function renderRoster() {
       return `
       <tr>
         <td class="player-name">${c.name}</td>
-        <td>${statusBadge(c)}</td>
+        <td>${statusBadge(c, selectedEpisode)}</td>
         <td>${outwitPts}</td>
         <td>${outplayPts}</td>
         <td>${outlastPts}</td>
@@ -138,11 +170,16 @@ function renderRoster() {
   document.querySelector("#roster tbody").innerHTML = tbody;
 }
 
-function init() {
-  renderMeta();
+function renderAll() {
   renderLeaderboard();
   renderPicksBreakdown();
   renderRoster();
+}
+
+function init() {
+  renderMeta();
+  renderEpisodePicker();
+  renderAll();
 }
 
 document.addEventListener("DOMContentLoaded", init);
