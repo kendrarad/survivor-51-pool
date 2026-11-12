@@ -47,8 +47,8 @@
 
 const SURVIVOR_DATA = {
   season: 51,
-  lastUpdated: "2026-11-05",
-  episodeCount: 5, // number of SCORED episodes (episode 2 is scored episode #1)
+  lastUpdated: "2026-11-11",
+  episodeCount: 6, // number of SCORED episodes (episode 2 is scored episode #1)
   actualWinner: null,
 
   // Episode 1 (unscored): Toka lost immunity, voted out Aaliyah 6-2 (Jenna had the other 2).
@@ -98,28 +98,37 @@ const SURVIVOR_DATA = {
   //   both safe; Savu (Devin, Jelly, Ori) lost and went to tribal. 3-person Savu tribal: Jelly
   //   and Devin voted out Ori 2-0 -- Jelly and Devin received zero votes. No idol was played or
   //   nullified any vote.
+  // Episode 7 (scored): the merge! Final 13 combine into one tribe. A classic grub-eating
+  //   challenge (first 10 to finish earn a seat at the merge feast) serves as the reward:
+  //   Kristin, Cristian, and Sharonda miss out; the other ten (An, Jelly, Brady, Carter, Kilby,
+  //   Devin, Eric, Lewis, Maggie, Mike) get the feast and the +1 reward credit. Individual
+  //   immunity (a balance challenge) goes to Mike. Kristin quietly hands her still-secret
+  //   "tethered idol" (found on Exile in episode 6) to Sharonda for safekeeping -- still
+  //   unplayed, no vote nullified. First merge tribal: Brady voted out 9-4 over Eric and
+  //   becomes the season's first jury member. Eric drew the 4 dissenting votes, so no
+  //   zero-vote bonus for him; every other remaining contestant received zero votes.
   contestants: [
     { name: "Aaliyah Puglia",            status: "eliminated", eliminatedEpisode: 1, outwit: [], outplay: [], outlast: [] },
     { name: "Alexis Levine",             status: "eliminated", eliminatedEpisode: 5, outwit: [2, 0, 0, 0], outplay: [0, 2, 0, 0], outlast: [1, 1, 1, 0] },
-    { name: "An \"Thien An\" Nguyen",    status: "active", eliminatedEpisode: null, outwit: [0, 2, 0, 0, 0], outplay: [2, 0, 1, 2, 1], outlast: [1, 1, 1, 1, 1] },
+    { name: "An \"Thien An\" Nguyen",    status: "active", eliminatedEpisode: null, outwit: [0, 2, 0, 0, 0, 2], outplay: [2, 0, 1, 2, 1, 1], outlast: [1, 1, 1, 1, 1, 1] },
     { name: "Ana Sani",                  status: "eliminated", eliminatedEpisode: 2, outwit: [0], outplay: [0], outlast: [0] },
-    { name: "Angelica \"Jelly\" Loblack",status: "active", eliminatedEpisode: null, outwit: [0, 2, 2, 2, 2], outplay: [2, 0, 0, 0, 0], outlast: [1, 1, 1, 1, 1] },
-    { name: "Brady Booker",              status: "active", eliminatedEpisode: null, outwit: [0, 2, 0, 0, 0], outplay: [2, 0, 1, 2, 1], outlast: [1, 1, 1, 1, 1] },
-    { name: "Carter Krull",              status: "active", eliminatedEpisode: null, outwit: [2, 2, 0, 0, 0], outplay: [0, 0, 1, 2, 1], outlast: [1, 1, 1, 1, 1] },
-    { name: "Cristian Chavez",           status: "active", eliminatedEpisode: null, outwit: [2, 0, 0, 2, 0], outplay: [0, 2, 2, 0, 1], outlast: [1, 1, 1, 1, 1] },
-    { name: "Danny \"Kilby\" Kilby",     status: "active", eliminatedEpisode: null, outwit: [0, 0, 0, 2, 0], outplay: [2, 0, 2, 0, 1], outlast: [1, 1, 1, 1, 1] },
-    { name: "Devin Way",                 status: "active", eliminatedEpisode: null, outwit: [0, 2, 2, 0, 2], outplay: [2, 0, 0, 0, 0], outlast: [1, 1, 1, 1, 1] },
-    { name: "Eric Macksoud",             status: "active", eliminatedEpisode: null, outwit: [0, 0, 0, 2, 0], outplay: [0, 2, 2, 0, 1], outlast: [1, 1, 1, 1, 1] },
+    { name: "Angelica \"Jelly\" Loblack",status: "active", eliminatedEpisode: null, outwit: [0, 2, 2, 2, 2, 2], outplay: [2, 0, 0, 0, 0, 1], outlast: [1, 1, 1, 1, 1, 1] },
+    { name: "Brady Booker",              status: "eliminated", eliminatedEpisode: 7, outwit: [0, 2, 0, 0, 0, 0], outplay: [2, 0, 1, 2, 1, 1], outlast: [1, 1, 1, 1, 1, 0] },
+    { name: "Carter Krull",              status: "active", eliminatedEpisode: null, outwit: [2, 2, 0, 0, 0, 2], outplay: [0, 0, 1, 2, 1, 1], outlast: [1, 1, 1, 1, 1, 1] },
+    { name: "Cristian Chavez",           status: "active", eliminatedEpisode: null, outwit: [2, 0, 0, 2, 0, 2], outplay: [0, 2, 2, 0, 1, 0], outlast: [1, 1, 1, 1, 1, 1] },
+    { name: "Danny \"Kilby\" Kilby",     status: "active", eliminatedEpisode: null, outwit: [0, 0, 0, 2, 0, 2], outplay: [2, 0, 2, 0, 1, 1], outlast: [1, 1, 1, 1, 1, 1] },
+    { name: "Devin Way",                 status: "active", eliminatedEpisode: null, outwit: [0, 2, 2, 0, 2, 2], outplay: [2, 0, 0, 0, 0, 1], outlast: [1, 1, 1, 1, 1, 1] },
+    { name: "Eric Macksoud",             status: "active", eliminatedEpisode: null, outwit: [0, 0, 0, 2, 0, 0], outplay: [0, 2, 2, 0, 1, 1], outlast: [1, 1, 1, 1, 1, 1] },
     { name: "Jenna Doore",               status: "eliminated", eliminatedEpisode: 4, outwit: [0, 2, 0], outplay: [2, 0, 0], outlast: [1, 1, 0] },
-    { name: "Kristin Flickinger",        status: "active", eliminatedEpisode: null, outwit: [2, 0, 0, 0, 0], outplay: [0, 2, 1, 2, 0], outlast: [1, 1, 1, 1, 1] },
-    { name: "Lewis Kelly",               status: "active", eliminatedEpisode: null, outwit: [0, 2, 0, 0, 0], outplay: [2, 0, 2, 0, 1], outlast: [1, 1, 1, 1, 1] },
+    { name: "Kristin Flickinger",        status: "active", eliminatedEpisode: null, outwit: [2, 0, 0, 0, 0, 2], outplay: [0, 2, 1, 2, 0, 0], outlast: [1, 1, 1, 1, 1, 1] },
+    { name: "Lewis Kelly",               status: "active", eliminatedEpisode: null, outwit: [0, 2, 0, 0, 0, 2], outplay: [2, 0, 2, 0, 1, 1], outlast: [1, 1, 1, 1, 1, 1] },
     { name: "Linnea Capobianco",         status: "eliminated", eliminatedEpisode: 5, outwit: [2, 0, 0, 0], outplay: [0, 2, 2, 0], outlast: [1, 1, 1, 0] },
-    { name: "Maggie Nestor",             status: "active", eliminatedEpisode: null, outwit: [0, 2, 0, 0, 0], outplay: [2, 0, 1, 2, 1], outlast: [1, 1, 1, 1, 1] },
-    { name: "Mike Pinsky",               status: "active", eliminatedEpisode: null, outwit: [0, 2, 0, 0, 0], outplay: [2, 0, 1, 2, 1], outlast: [1, 1, 1, 1, 1] },
+    { name: "Maggie Nestor",             status: "active", eliminatedEpisode: null, outwit: [0, 2, 0, 0, 0, 2], outplay: [2, 0, 1, 2, 1, 1], outlast: [1, 1, 1, 1, 1, 1] },
+    { name: "Mike Pinsky",               status: "active", eliminatedEpisode: null, outwit: [0, 2, 0, 0, 0, 2], outplay: [2, 0, 1, 2, 1, 3], outlast: [1, 1, 1, 1, 1, 1] },
     { name: "Ori Jean-Charles",          status: "eliminated", eliminatedEpisode: 6, outwit: [2, 0, 2, 2, 0], outplay: [0, 2, 0, 0, 0], outlast: [1, 1, 1, 1, 0] },
     { name: "Patt Cannaday",             status: "eliminated", eliminatedEpisode: 3, outwit: [0, 0], outplay: [2, 0], outlast: [1, 0] },
     { name: "Rob Antonson",              status: "eliminated", eliminatedEpisode: 3, outwit: [2, 0], outplay: [0, 0], outlast: [1, 0] },
-    { name: "Sharonda Cox",              status: "active", eliminatedEpisode: null, outwit: [2, 0, 0, 2, 0], outplay: [0, 2, 2, 0, 1], outlast: [1, 1, 1, 1, 1] },
+    { name: "Sharonda Cox",              status: "active", eliminatedEpisode: null, outwit: [2, 0, 0, 2, 0, 2], outplay: [0, 2, 2, 0, 1, 0], outlast: [1, 1, 1, 1, 1, 1] },
   ],
 
   // Each pool player's 3 picks + their winner/tiebreaker pick.

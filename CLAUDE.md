@@ -10,7 +10,10 @@ Follow this sequence without asking which episode — figure it out yourself:
 
 1. **Determine the next episode to score.** Read `episodeCount` in
    `data.js` (it's the number of episodes already scored, where index 0 of
-   each array = episode 2). The next episode to score is `episodeCount + 1`.
+   each array = episode 2). Episode 1 is never scored, so the total number
+   of scored episodes is always `episode# - 1`: the most recently scored
+   episode is `episodeCount + 1`, and the next episode to score is
+   `episodeCount + 2`.
 
 2. **Find the recap.** Look up that episode's recap on insidesurvivor.com
    (Survivor 51). I don't have a search tool — only direct-URL fetching —
