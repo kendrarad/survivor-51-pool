@@ -48,6 +48,13 @@ function pickChip(name, uptoEpisode) {
   return `<span class="chip ${dead ? "chip-dead" : ""}">${name}${dead ? " ☠" : ""}</span>`;
 }
 
+// Winner pick, struck out (with a skull) once that contestant is eliminated.
+function winnerPick(name, uptoEpisode) {
+  const c = contestantByName(name);
+  const dead = c && eliminatedAsOf(c, uptoEpisode);
+  return dead ? `<span class="pick-dead">${name} ☠</span>` : name;
+}
+
 function renderMeta() {
   document.getElementById("season-label").textContent = `Season ${SURVIVOR_DATA.season}`;
   document.getElementById("last-updated").textContent = `Last updated: ${SURVIVOR_DATA.lastUpdated}`;
@@ -91,7 +98,7 @@ function renderLeaderboard() {
           ${pickChip(p.outlast, selectedEpisode)}
         </td>
         <td class="tiebreak-cell">
-          ${p.winner}${gotWinnerRight ? ' <span class="badge badge-win">✓ Winner pick</span>' : ""}
+          ${winnerPick(p.winner, selectedEpisode)}${gotWinnerRight ? ' <span class="badge badge-win">✓ Winner pick</span>' : ""}
         </td>
         <td class="score">${p.score}</td>
       </tr>`;
@@ -128,7 +135,7 @@ function renderPicksBreakdown() {
         ${row("Outlast", p.outlast, outlastPts)}
         <div class="breakdown-row tiebreak">
           <span class="breakdown-label">Winner pick</span>
-          <span class="breakdown-name">${p.winner}</span>
+          <span class="breakdown-name">${winnerPick(p.winner, selectedEpisode)}</span>
         </div>
       </div>`;
     })

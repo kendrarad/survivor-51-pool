@@ -290,3 +290,8 @@ td.player-name {
 @media (max-width: 600px) {
   th, td { padding: 0.45rem 0.4rem; font-size: 0.82rem; }
 }
+
+.pick-dead {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
